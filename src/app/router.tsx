@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {createBrowserRouter, RouterProvider} from 'react-router';
 
 import NotFoundPage from '@/components/errors/NotFoundPage';
 import {MainLayout} from '@/components/layout/main-layout/MainLayout';
