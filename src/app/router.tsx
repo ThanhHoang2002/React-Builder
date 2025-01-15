@@ -4,9 +4,9 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import NotFoundPage from '@/components/errors/NotFoundPage';
 import {MainLayout} from '@/components/layout/main-layout/MainLayout';
 import {paths} from '@/config/paths';
-const Products = React.lazy(() => import('@/app/page/product/Products'));
-const ProductDetail = React.lazy(() => import('@/app/page/product/ProductDetail'));
-const Cart = React.lazy(() => import('@/app/page/cart/Cart'));
+const Products = React.lazy(() => import('@/app/pages/product/Products'));
+const ProductDetail = React.lazy(() => import('@/app/pages/product/ProductDetail'));
+const Cart = React.lazy(() => import('@/app/pages/cart/Cart'));
 export const AppRouter = () => {
     const router = createBrowserRouter([
         {
