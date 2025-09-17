@@ -1,145 +1,138 @@
-# 🗄️ Project Structure
+# React Builder
 
-Most of the code lives in the `src` folder and looks something like this:
+React Builder là một công cụ xây dựng giao diện web trực quan dựa trên React, được tích hợp từ VvvebJs và tùy chỉnh để hoạt động với React.
 
-```sh
-src
-|
-+-- app               # application layer containing:
-|   |                 # this folder might differ based on the meta framework used
-|   +-- pages        # application routes / can also be pages
-|   +-- app.tsx       # main application component
-|   +-- provider.tsx  # application provider that wraps the entire application with different global providers - this might also differ based on meta framework used
-|   +-- router.tsx    # application router configuration
-+-- assets            # assets folder can contain all the static files such as images, fonts, etc.
-|
-+-- components        # shared components used across the entire application
-|
-+-- config            # global configurations, exported env variables etc.
-|
-+-- features          # feature based modules
-|
-+-- hooks             # shared hooks used across the entire application
-|
-+-- lib               # reusable libraries preconfigured for the application
-|
-+-- stores            # global state stores
-|
-+-- testing           # test utilities and mocks
-|
-+-- types             # shared types used across the application
-|
-+-- utils             # shared utility functions
+## Tính năng
+
+- Kéo thả các phần tử vào canvas
+- Di chuyển, thay đổi kích thước và xoay phần tử
+- Chỉnh sửa thuộc tính của phần tử
+- Undo/Redo các thay đổi
+- Xuất/Nhập dự án (HTML, JSON)
+- Hệ thống quản lý component, block và section
+
+## Cài đặt
+
+```bash
+# Cài đặt các dependencies
+pnpm install
+
+# Chạy ứng dụng
+pnpm dev
 ```
 
-For easy scalability and maintenance, organize most of the code within the features folder. Each feature folder should contain code specific to that feature, keeping things neatly separated. This approach helps prevent mixing feature-related code with shared components, making it simpler to manage and maintain the codebase compared to having many files in a flat folder structure. By adopting this method, you can enhance collaboration, readability, and scalability in the application's architecture.
+## Cấu trúc dự án
 
-A feature could have the following structure:
-
-```sh
-src/features/awesome-feature
-|
-+-- api         # exported API request declarations and api hooks related to a specific feature
-|
-+-- assets      # assets folder can contain all the static files for a specific feature
-|
-+-- components  # components scoped to a specific feature
-|
-+-- hooks       # hooks scoped to a specific feature
-|
-+-- stores      # state stores for a specific feature
-|
-+-- types       # typescript types used within the feature
-|
-+-- utils       # utility functions for a specific feature
+```
+src/
+  ├── app/
+  │   └── pages/
+  │       └── builder/
+  │           └── BuilderPage.tsx   # Trang chính của builder
+  └── features/
+      └── builder/
+          ├── adapters/             # Các adapter để tích hợp với thư viện khác
+          │   └── vvveb-adapter.ts  # Adapter cho VvvebJs
+          ├── components/
+          │   ├── builder-elements/ # Các component hiển thị phần tử
+          │   ├── canvas-builder/   # Canvas để kéo thả
+          │   └── element-list/     # Danh sách các phần tử có thể thêm
+          ├── registry/             # Hệ thống đăng ký component
+          │   ├── componentRegistry.ts
+          │   └── component-definitions.ts
+          ├── services/             # Các service
+          │   ├── export-service.ts # Xuất/Nhập dự án
+          │   ├── history-service.ts # Quản lý lịch sử
+          │   └── html-service.ts   # Xử lý HTML
+          ├── stores/               # State management
+          │   └── builderStore.ts   # Store chính
+          └── types/                # Các type definition
+              └── index.ts
 ```
 
-NOTE: You don't need all of these folders for every feature. Only include the ones that are necessary for the feature.
+## Hướng dẫn sử dụng
 
-In some cases it might be more practical to keep all API calls outside of the features folders in a dedicated `api` folder where all API calls are defined. This can be useful if you have a lot of shared API calls between features.
+### 1. Thêm phần tử vào canvas
 
-In the past, it was recommended to use barrel files to export all the files from a feature. However, it can cause issues for Vite to do tree shaking and can lead to performance issues. Therefore, it is recommended to import the files directly.
+- Chọn một phần tử từ danh sách bên trái
+- Kéo thả hoặc click để thêm vào canvas
 
-It might not be a good idea to import across the features. Instead, compose different features at the application level. This way, you can ensure that each feature is independent which makes the codebase less convoluted.
+### 2. Chỉnh sửa phần tử
 
-To forbid cross-feature imports, you can use ESLint:
+- Click vào phần tử để chọn
+- Sử dụng các điểm điều khiển để di chuyển, thay đổi kích thước hoặc xoay
+- Double-click vào text hoặc button để chỉnh sửa nội dung
+- Sử dụng panel bên phải để chỉnh sửa các thuộc tính
 
-```js
-'import/no-restricted-paths': [
-    'error',
+### 3. Quản lý phần tử
+
+- Sử dụng các nút trên thanh công cụ của phần tử để xóa, sao chép, đưa lên trước hoặc đưa ra sau
+- Sử dụng Ctrl+Z để hoàn tác và Ctrl+Y để làm lại
+
+### 4. Xuất/Nhập dự án
+
+- Click vào nút "Export / Import" trên thanh công cụ
+- Chọn "Export as HTML" để xuất sang HTML
+- Chọn "Export as JSON" để xuất sang JSON
+- Chọn "Import from file" để nhập từ file HTML hoặc JSON
+
+## Tích hợp VvvebJs
+
+React Builder tích hợp các tính năng từ VvvebJs:
+
+1. **Hệ thống Component**: Sử dụng cùng cấu trúc component với VvvebJs nhưng được chuyển đổi sang React
+2. **Quản lý thuộc tính**: Hỗ trợ các loại input như text, number, select, color, checkbox, range
+3. **Block và Section**: Hỗ trợ các block và section từ VvvebJs
+
+## Mở rộng
+
+### Thêm component mới
+
+Để thêm một component mới, bạn cần:
+
+1. Tạo một định nghĩa component trong `src/features/builder/registry/component-definitions.ts`:
+
+```typescript
+const myComponent: ComponentDefinition = {
+  type: "my-component",
+  name: "My Component",
+  category: "Custom",
+  tag: "div",
+  html: "<div>My Component</div>",
+  properties: [
     {
-        zones: [
-            // disables cross-feature imports:
-            // eg. src/features/discussions should not import from src/features/comments, etc.
-            {
-                target: './src/features/auth',
-                from: './src/features',
-                except: ['./auth'],
-            },
-            {
-                target: './src/features/comments',
-                from: './src/features',
-                except: ['./comments'],
-            },
-            {
-                target: './src/features/discussions',
-                from: './src/features',
-                except: ['./discussions'],
-            },
-            {
-                target: './src/features/teams',
-                from: './src/features',
-                except: ['./teams'],
-            },
-            {
-                target: './src/features/users',
-                from: './src/features',
-                except: ['./users'],
-            },
-
-            // More restrictions...
-        ],
+      key: "content",
+      name: "Content",
+      type: "text",
+      htmlAttr: "innerHTML",
     },
-],
+    // Thêm các thuộc tính khác
+  ],
+  initialize: (element) => {
+    return {
+      ...element,
+      style: {
+        ...element.style,
+        // Các style mặc định
+      },
+    };
+  },
+};
+
+// Đăng ký component
+componentRegistry.register(myComponent);
 ```
 
-You might also want to enforce unidirectional codebase architecture. This means that the code should flow in one direction, from shared parts of the code to the application (shared -> features -> app). This is a good practice to follow as it makes the codebase more predictable and easier to understand.
+2. Nếu cần renderer tùy chỉnh, tạo một component trong `src/features/builder/components/builder-elements/` và cập nhật `BuilderElementRenderer.tsx`
 
-![Unidirectional Codebase](./assets/unidirectional-codebase.png)
+### Tích hợp thêm từ VvvebJs
 
-As you can see, the shared parts can be used by any part of the codebase, but the features can only import from shared parts and the app can import from features and shared parts.
+Để tích hợp thêm các tính năng từ VvvebJs:
 
-To enforce this, you can use ESLint:
+1. Phân tích tính năng trong VvvebJs
+2. Tạo adapter hoặc service tương ứng trong React Builder
+3. Tích hợp vào hệ thống hiện tại
 
-```js
-'import/no-restricted-paths': [
-    'error',
-    {
-    zones: [
-        // Previous restrictions...
+## Giấy phép
 
-        // enforce unidirectional codebase:
-        // e.g. src/app can import from src/features but not the other way around
-        {
-            target: './src/features',
-            from: './src/app',
-        },
-
-        // e.g src/features and src/app can import from these shared modules but not the other way around
-        {
-            target: [
-                './src/components',
-                './src/hooks',
-                './src/lib',
-                './src/types',
-                './src/utils',
-            ],
-            from: ['./src/features', './src/app'],
-        },
-    ],
-    },
-],
-```
-
-By following these practices, you can ensure that your codebase is well-organized, scalable, and maintainable. This will help you and your team to work more efficiently and effectively on the project.
-This approach can also make it easier to apply similar architecture to apps built with Next.js, Remix or React Native.
+Dự án này được phát hành theo giấy phép MIT.

@@ -9,7 +9,7 @@ export const MainLayout: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow">
-        <div className="container mx-auto px-4">
+        <div className="px-4">
           <div className="flex h-16 items-center justify-between">
             <Link to="/" className="text-xl font-bold text-gray-800">
               FakeStore
@@ -30,7 +30,7 @@ export const MainLayout: React.FC = () => {
           </div>
         </div>
       </header>
-      <main className="container mx-auto px-4 py-8">
+      <main>
         <Outlet />
       </main>
     </div>

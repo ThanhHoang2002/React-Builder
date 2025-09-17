@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import {createBrowserRouter, RouterProvider} from 'react-router';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import NotFoundPage from '@/components/errors/NotFoundPage';
 import {MainLayout} from '@/components/layout/main-layout/MainLayout';
@@ -7,6 +7,7 @@ import {paths} from '@/config/paths';
 const Products = lazy(() => import('@/app/pages/product/Products'));
 const ProductDetail = lazy(() => import('@/app/pages/product/ProductDetail'));
 const Cart = lazy(() => import('@/app/pages/cart/Cart'));
+const Builder = lazy(() => import('@/app/pages/builder/BuilderPage'));
 export const AppRouter = () => {
     const router = createBrowserRouter([
         {
@@ -23,7 +24,11 @@ export const AppRouter = () => {
                 {
                     path: '/cart',
                     element: <Cart />,
-                },                     
+                },   
+                {
+                    path: '/builder',
+                    element: <Builder />,
+                },
             ],
             errorElement: <NotFoundPage/>,
         },
